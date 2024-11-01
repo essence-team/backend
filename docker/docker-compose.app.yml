@@ -1,0 +1,13 @@
+services:
+  essense_backend:
+    image: essense_backend:dev
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: essense_backend
+    ports:
+      - "8090:80/tcp"
+
+
+networks:
+  essense:
