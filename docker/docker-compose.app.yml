@@ -1,13 +1,16 @@
 services:
-  essense_backend:
-    image: essense_backend:dev
+  essence_backend:
+    image: essence_backend:dev
     build:
       context: ..
       dockerfile: docker/Dockerfile
-    container_name: essense_backend
+    container_name: essence_backend
     ports:
-      - "8090:80/tcp"
+      - "8090:8090/tcp"
+    networks:
+      - essence_network
 
 
 networks:
-  essense:
+  essence_network:
+    driver: bridge
