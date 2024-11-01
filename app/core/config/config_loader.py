@@ -12,6 +12,11 @@ class Config(BaseSettings):
     database: DatabaseConfig
     loggers: LoggersConfig
 
+    # Smart Parser API
+    smart_parser_api_host: str
+    smart_parser_api_port: int
+    smart_parser_api_key: str
+
 
 def load_yaml_config(file_path: str):
     with open(file_path, "r") as f:
