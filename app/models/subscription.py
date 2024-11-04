@@ -19,10 +19,10 @@ class Subscription(Base):
     # Связь с таблицей Users
     user = relationship("User", back_populates="subscriptions")
 
-    def __init__(self, id: str, user_id: int, duration_days: int):
+    def __init__(self, id: str, user_id: int, duration_days: int, start_sub: datetime = None):
         self.id = id
         self.user_id = user_id
-        self.start_sub = datetime.now(timezone.utc)
+        self.start_sub = datetime.now(timezone.utc) if start_sub is None else start_sub
         self.end_sub = self.start_sub + timedelta(days=duration_days)
         self.is_active = True
         self.duration_days = duration_days
