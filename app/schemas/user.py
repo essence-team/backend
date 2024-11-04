@@ -5,7 +5,7 @@ from pydantic import BaseModel
 class UserCreate(BaseModel):
     user_id: str
     username: str
-    digest_freq: DigestFreq
+    digest_freq: DigestFreq = DigestFreq.WEEKLY
 
 
 class UserUpdateDigestFreq(BaseModel):
