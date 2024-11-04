@@ -1,4 +1,4 @@
-from crud.subscription import get_active_subscription
+from crud.subscription import get_last_subscription
 from crud.user import create_user, get_user, update_digest_frequency
 from database import get_db_session
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -25,18 +25,18 @@ async def add_user(
 
 
 # 2. GET user/{id} — получить пользователя
-@user_router.get("/{id}", response_model=UserResponse)
+@user_router.get("/", response_model=UserResponse)
 async def get_user_by_id(
-    id: str,
+    user_id: str,
     db: AsyncSession = Depends(get_db_session),
     api_key=Depends(check_api_key_access),
 ):
-    user = await get_user(db, user_id=id)
+    user = await get_user(db, user_id=user_id)
 
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
 
-    subscription = await get_active_subscription(db, user_id=id)
+    subscription = await get_last_subscription(db, user_id=user_id)
 
     user_info = UserResponse(
         user_id=user.user_id,
