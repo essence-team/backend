@@ -83,7 +83,7 @@ async def remove_channels_for_user(
 
 
 # 3. GET /channels/{user_id} — возвращает все каналы для конкретного пользователя
-@channel_router.get("/{user_id}", response_model=List[ChannelResponse])
+@channel_router.get("/", response_model=List[ChannelResponse])
 async def get_channels_for_user(
     user_id: str,
     db: AsyncSession = Depends(get_db_session),
