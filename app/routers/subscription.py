@@ -56,6 +56,7 @@ async def get_all_current_subscribers(
             "user_id": user.user_id,
             "username": user.username,
             "digest_freq": user.digest_freq,
+            "digest_time": user.digest_time,
             "remaining_days": next((sub.days_remaining() for sub in user.subscriptions if sub.is_active), None),
         }
         for user in subscribers
@@ -77,6 +78,7 @@ async def get_subscribers_expiring_soon(
             "user_id": user.user_id,
             "username": user.username,
             "digest_freq": user.digest_freq,
+            "digest_time": user.digest_time,
             "remaining_days": shift_days,
         }
         for user in expiring_subscribers
