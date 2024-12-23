@@ -1,3 +1,4 @@
+from models.aggregated_posts import AggregatedPost
 from models.channel import Channel
 from models.post import Post
 from models.subscription import Subscription

@@ -17,16 +17,17 @@ async def get_user(session: AsyncSession, user_id: int) -> User | None:
     return result.scalars().first()
 
 
-# async def get_all_users(session: AsyncSession) -> list[User]:
-#     query = select(User)
-#     result = await session.execute(query)
-#     return result.scalars().all()
+async def get_all_users(session: AsyncSession) -> list[User]:
+    query = select(User)
+    result = await session.execute(query)
+    return result.scalars().all()
 
 
-async def update_digest_frequency(session: AsyncSession, user_id: int, new_freq: str) -> User | None:
+async def update_digest_params(session: AsyncSession, user_id: int, new_freq: str, new_time: int) -> User | None:
     user = await get_user(session, user_id)
     if user:
         user.digest_freq = new_freq
+        user.digest_time = new_time
         await session.commit()
         await session.refresh(user)
     return user
