@@ -1,6 +1,5 @@
 from typing import List
 
-from core.config import main_config
 from crud.channel import (
     add_channel_to_user,
     create_channel,
@@ -13,7 +12,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from routers import check_api_key_access
 from routers.utils import extract_channel_username
 from schemas.channel import ChannelLinkRequest, ChannelResponse
-from services.smart_parser_api import ChannelAddRequest, ChannelAddResponse, SmartParserService
+from services.smart_parser_api import ChannelAddRequest, ChannelAddResponse, smart_parser_service
 from sqlalchemy.ext.asyncio import AsyncSession
 
 channel_router = APIRouter(prefix="/channels", tags=["channels"])
@@ -31,11 +30,6 @@ async def add_channels_for_user(
     api_key=Depends(check_api_key_access),
 ):
     # Instantiate the SmartParserService
-    smart_parser_service = SmartParserService(
-        host=main_config.smart_parser_api_host,
-        port=main_config.smart_parser_api_port,
-        api_key=main_config.smart_parser_api_key,
-    )
     try:
         # Create a request object for SmartParserService
         channel_request = ChannelAddRequest(channel_links=data.channel_links)
