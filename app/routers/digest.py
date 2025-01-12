@@ -5,7 +5,8 @@ from crud.user import get_user  # Assuming you have a function to get user by ID
 from database import get_db_session
 from fastapi import APIRouter, Depends, HTTPException, status
 from routers import check_api_key_access
-from schemas.aggregated_posts import AggregatedPostModel
+from schemas.aggregated_posts import AggregatedPostModel, QuestionRequest
+from services.smart_parser_api import smart_parser_service
 from sqlalchemy.ext.asyncio import AsyncSession
 
 digest_router = APIRouter(prefix="/digest", tags=["digest"])
@@ -30,12 +31,10 @@ async def get_digest_for_user(
 
 @digest_router.post("/ask", response_model=str)
 async def ask_question(
-    user_id: str,
-    question: str,
-    clusters: List[int],
+    question_request: QuestionRequest,
     db: AsyncSession = Depends(get_db_session),
     api_key=Depends(check_api_key_access),
-):
+) -> str:
     # Placeholder logic for answering the question
-    answer = f"User {user_id} asked: {question}"
+    answer = await smart_parser_service.ask_question(question_request)
     return answer
